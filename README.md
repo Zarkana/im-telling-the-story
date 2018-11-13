@@ -8,16 +8,16 @@ I'm telling the story is a game inspired by mad libs that is open source and bas
 
 ## Installation Guide
 
-1. [Install Vagrant](https://www.vagrantup.com/docs/installation/)
+1. [Install Vagrant](https://www.vagrantup.com/docs/installation/) (you may need to install VirtualBox, if you don't already have it)
 
-1. Change to the directory of the project
+2. change to the directory of the project
 
-1. initialize the dev environment:
+3. initialize the dev environment:
 ```
 vagrant up
 ```
 
-1. Visit the site at localhost:8080 in your browser
+4. Visit the site at localhost:8080 in your browser
 
 
 ## imtellingthestorycom
