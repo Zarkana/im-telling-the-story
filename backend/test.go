@@ -1,13 +1,10 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	fmt.Printf("hello\n")
 	router := gin.Default()
 	router.GET("/test", test)
 	router.GET("/test/:test", testParam)
