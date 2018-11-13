@@ -1,0 +1,4 @@
+# vagrant leaves lots of cruft on the system
+# we don't want this in our rev control
+.vagrant/*
+*.log
