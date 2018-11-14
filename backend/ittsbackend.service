@@ -1,0 +1,13 @@
+[Unit]
+Description=I'm Telling the Story Backend Service
+After=network.target
+
+[Service]
+Type=simple
+User=vagrant
+# WorkingDirectory=/home/vagrant
+ExecStart=/usr/sbin/ittsbackend --port 42069
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

@@ -2,13 +2,20 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"flag"
 )
 
 func main() {
+    // create a flag to take in the port number as a CLI flag
+	servicePort := flag.String("port", "42069", "target port to run the service")
+	flag.Parse()
+
 	router := gin.Default()
 	router.GET("/test", test)
 	router.GET("/test/:test", testParam)
-	router.Run()
+
+	// run our router with the specified or default port number
+	router.Run(":"+*servicePort)
 }
 
 func test(c *gin.Context) {

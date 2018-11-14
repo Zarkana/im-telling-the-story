@@ -61,29 +61,27 @@ Vagrant.configure("2") do |config|
   #   vb.memory = "1024"
   end
 
-  #
-  # View the documentation for the provider you are using for more
-  # information on available options.
-
-  # Enable provisioning with a shell script. Additional provisioners such as
-  # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
-  # documentation for more information about their specific syntax and use.
+  # run bash commands for more provisioning
   config.vm.provision "shell", inline: <<-SHELL
+    # add a repository so we can download golang
     add-apt-repository ppa:longsleep/golang-backports
-    apt-get update
+
+    apt-get update -y
     apt-get install -y apache2 golang-1.11
+
+    # compile our binary
     export GOPATH=/usr/lib/go
-    export PORT=42069
     export PATH="$PATH:/usr/lib/go-1.11/bin"
     go get "github.com/gin-gonic/gin"
+    # place binary in /usr/sbin
+    go build -o "/usr/sbin/ittsbackend" "/home/vagrant/backend/ittsbackend.go"
+
+    # copy the systemd unit file into its proper location
+    sudo cp /home/vagrant/backend/ittsbackend.service /etc/systemd/system/ittsbackend.service
+
+    # start the itts backend service
+    sudo systemctl start ittsbackend.service
+
     echo "Finished provisioning"
   SHELL
-
-  config.vm.provision "shell", run: "always", inline: <<-RUNEACHTIME
-    export GOPATH=/usr/lib/go
-    export PORT=42069
-    export PATH="$PATH:/usr/lib/go-1.11/bin"
-    echo "Starting API server"
-    go run /home/vagrant/backend/test.go
-  RUNEACHTIME
 end
