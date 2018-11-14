@@ -23,6 +23,10 @@ git clone https://github.com/TylerNakamura/im-telling-the-story.git
 
 3. change to the directory of the project
 
+```bash
+cd im-telling-the-story
+```
+
 4. initialize the dev environment:
 
 `vagrant up`
