@@ -29,6 +29,7 @@ Vagrant.configure("2") do |config|
   # within the machine from a port on the host machine and only allow access
   # via 127.0.0.1 to disable public access
   config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
+  config.vm.network "forwarded_port", guest: 42069, host: 42069, host_ip: "127.0.0.1"
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
@@ -59,6 +60,7 @@ Vagrant.configure("2") do |config|
   #   # Customize the amount of memory on the VM:
   #   vb.memory = "1024"
   end
+
   #
   # View the documentation for the provider you are using for more
   # information on available options.
@@ -67,9 +69,21 @@ Vagrant.configure("2") do |config|
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
-    apt add-repository -y ppa:longsleep/golang-backports
-    apt update -y
-    apt install -y apache2
-    apt install -y golang-go
+    add-apt-repository ppa:longsleep/golang-backports
+    apt-get update
+    apt-get install -y apache2 golang-1.11
+    export GOPATH=/usr/lib/go
+    export PORT=42069
+    export PATH="$PATH:/usr/lib/go-1.11/bin"
+    go get "github.com/gin-gonic/gin"
+    echo "Finished provisioning"
   SHELL
+
+  config.vm.provision "shell", run: "always", inline: <<-RUNEACHTIME
+    export GOPATH=/usr/lib/go
+    export PORT=42069
+    export PATH="$PATH:/usr/lib/go-1.11/bin"
+    echo "Starting API server"
+    go run /home/vagrant/backend/test.go
+  RUNEACHTIME
 end

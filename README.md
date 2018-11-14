@@ -11,15 +11,13 @@ It may be based on more things eventually. It was written in _____ days by three
 
 1. [Install Vagrant](https://www.vagrantup.com/docs/installation/) (you may need to install VirtualBox, if you don't already have it)
 
-2. change to the directory of the project
+1. change to the directory of the project
 
-3. initialize the dev environment:
-```
-vagrant up
-```
+1. initialize the dev environment:
 
-4. Visit the site at localhost:8080 in your browser
+`vagrant up`
 
+1. Visit the site at localhost:8080 in your browser
 
 ## imtellingthestorycom
 

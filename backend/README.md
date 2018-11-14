@@ -1,6 +1,5 @@
 # I'm Telling the Story server
 
-
 ## Installation
 
 1. `vagrant up`
