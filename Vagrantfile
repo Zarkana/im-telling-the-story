@@ -71,19 +71,18 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: <<-SHELL
     add-apt-repository ppa:longsleep/golang-backports
     apt-get update
-    apt-get install -y apache2
-    apt-get install -y golang-1.11
-    echo "export GOPATH=/usr/lib/go" >> /home/vagrant/.profile
-    echo "export PORT=42069" >> /home/vagrant/.profile
-    echo "export PATH=$PATH:/usr/lib/go-1.11/bin" >> /home/vagrant/.profile
+    apt-get install -y apache2 golang-1.11
     export GOPATH=/usr/lib/go
     export PORT=42069
     export PATH="$PATH:/usr/lib/go-1.11/bin"
     go get "github.com/gin-gonic/gin"
-    echo "finished provisioning"
+    echo "Finished provisioning"
   SHELL
 
-  config.vm.provision :shell, run: "always", inline: <<-RUNEACHTIME
+  config.vm.provision "shell", run: "always", inline: <<-RUNEACHTIME
+    export GOPATH=/usr/lib/go
+    export PORT=42069
+    export PATH="$PATH:/usr/lib/go-1.11/bin"
     echo "Starting API server"
     go run /home/vagrant/backend/test.go
   RUNEACHTIME
