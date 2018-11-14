@@ -1,5 +1,8 @@
 # I'm telling the story
 
+Inline-style: 
+![pirates](/piratepic.jpg "I'm Telling the Story")
+
 ## About
 
 This is the home of I'm Telling the Story, a web based mad lib inspired game.
