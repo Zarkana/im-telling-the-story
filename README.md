@@ -1,6 +1,5 @@
 # I'm telling the story
 
-Inline-style: 
 ![pirates](/piratepic.jpg "I'm Telling the Story")
 
 ## About
