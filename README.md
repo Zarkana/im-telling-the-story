@@ -5,9 +5,10 @@
 This is the home of I'm Telling the Story, a web based mad lib inspired game.
 
 I'm telling the story is a game inspired by mad libs that is open source and based on Go, React, and alcoholism.
-It may be based on more things eventually. It was written in _____ days by three dudes
+It may be based on more things eventually.
+It was written in _____ days by three dudes
 
-## Installation Guide
+## Developers Installation Guide
 
 1. [Install Vagrant](https://www.vagrantup.com/docs/installation/) (you may need to install VirtualBox, if you don't already have it)
 
@@ -29,7 +30,11 @@ cd im-telling-the-story
 
 4. initialize the dev environment:
 
-`vagrant up`
+```bash
+vagrant up
+```
+
+---
 
 You should now be able to see the website at [http://localhost:8080](http://localhost:8080)
 
@@ -39,18 +44,8 @@ or you can interact with the backend with curl for example:
 curl localhost:42069
 ```
 
-## imtellingthestorycom
-
-Welcome to imtellingthestorycom
-
-you can do anything at imtellingthestorycom
-
-the only limit is yourself
-
-welcome to imtellingthestorycom
-
-this is imtellingsthestorycom
-
 ## Credits
 
-websites here
+- Joseph
+- Tyler
+- Tyler
