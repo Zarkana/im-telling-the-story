@@ -63,15 +63,16 @@ Vagrant.configure("2") do |config|
 
   # run bash commands for more provisioning
   config.vm.provision "shell", inline: <<-SHELL
-    # add a repository so we can download golang
-    add-apt-repository ppa:longsleep/golang-backports
+    echo "Downloading Go"
+    curl -s -o out.tar.gz https://dl.google.com/go/go1.11.2.linux-amd64.tar.gz
+    tar -C /usr/local -xzf out.tar.gz
 
+    echo "installing softwarez"
     apt-get update -y
-    apt-get install -y apache2 golang-1.11
-
+    apt-get install -y apache2 httpie
+    
     # compile our binary
-    export GOPATH=/usr/lib/go
-    export PATH="$PATH:/usr/lib/go-1.11/bin"
+    export PATH=$PATH:/usr/local/go/bin
     go get "github.com/gin-gonic/gin"
     # place binary in /usr/sbin
     go build -o "/usr/sbin/ittsbackend" "/home/vagrant/backend/ittsbackend.go"
