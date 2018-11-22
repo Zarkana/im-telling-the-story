@@ -45,7 +45,8 @@ Vagrant.configure("2") do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
   # config.vm.synced_folder "../data", "/vagrant_data"
-  config.vm.synced_folder "frontend/", "/var/www/html"
+  config.vm.synced_folder "frontend/", "/home/vagrant/frontend"
+  config.vm.synced_folder "frontend/build", "/var/www/html"
   config.vm.synced_folder "backend/", "/home/vagrant/backend"
 
   # Provider-specific configuration so you can fine-tune various
@@ -63,11 +64,20 @@ Vagrant.configure("2") do |config|
 
   # run bash commands for more provisioning
   config.vm.provision "shell", inline: <<-SHELL
-    echo "Downloading Go"
-    curl -s -o out.tar.gz https://dl.google.com/go/go1.11.2.linux-amd64.tar.gz
-    tar -C /usr/local -xzf out.tar.gz
+    # check if go is installed because it takes 12 billion years to download
+    echo "Checking if go is installed..."
+    if [ ! -d /usr/local/go ]
+      then
+        echo "Downloading Go"
+        curl -s -o out.tar.gz https://dl.google.com/go/go1.11.2.linux-amd64.tar.gz
+        tar -C /usr/local -xzf out.tar.gz
+        rm out.tar.gz
+    fi
+    echo "installing nodejs"
+    curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -
+    apt-get install -y nodejs
 
-    echo "installing softwarez"
+    echo "installing more stuff"
     apt-get update -y
     apt-get install -y apache2 httpie
     
