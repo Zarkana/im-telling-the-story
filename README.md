@@ -49,5 +49,5 @@ curl localhost:42069
 ## Credits
 
 - Joseph
-- Tyler
-- Tyler
+- Tyler 1
+- Tyler 2
