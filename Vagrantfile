@@ -46,7 +46,7 @@ Vagrant.configure("2") do |config|
   # argument is a set of non-required options.
   # config.vm.synced_folder "../data", "/vagrant_data"
   config.vm.synced_folder "frontend/", "/home/vagrant/frontend"
-  config.vm.synced_folder "frontend/itts-front-end/build", "/var/www/html"
+  # config.vm.synced_folder "frontend/itts-front-end/build", "/var/www/html"
   config.vm.synced_folder "backend/", "/home/vagrant/backend"
 
   # Provider-specific configuration so you can fine-tune various
@@ -91,6 +91,7 @@ Vagrant.configure("2") do |config|
     npm run build
     # copy the files over
     sudo cp -fr /home/vagrant/frontend/itts-front-end/build/* /var/www/html
+    # apparently vagrant is running at ~ so putting it back to not destroy anything
     cd ~
 
     
