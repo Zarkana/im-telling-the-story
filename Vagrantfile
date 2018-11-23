@@ -46,7 +46,7 @@ Vagrant.configure("2") do |config|
   # argument is a set of non-required options.
   # config.vm.synced_folder "../data", "/vagrant_data"
   config.vm.synced_folder "frontend/", "/home/vagrant/frontend"
-  config.vm.synced_folder "frontend/build", "/var/www/html"
+  config.vm.synced_folder "frontend/itts-front-end/build", "/var/www/html"
   config.vm.synced_folder "backend/", "/home/vagrant/backend"
 
   # Provider-specific configuration so you can fine-tune various
@@ -64,22 +64,35 @@ Vagrant.configure("2") do |config|
 
   # run bash commands for more provisioning
   config.vm.provision "shell", inline: <<-SHELL
+    echo "apt packages"
+    apt-get update -y
+    apt-get install -y apache2 httpie
     # check if go is installed because it takes 12 billion years to download
-    echo "Checking if go is installed..."
+    echo "Checking if go is installed"
     if [ ! -d /usr/local/go ]
       then
-        echo "Downloading Go"
+        echo "Downloading Go..."
+        #download using the actual tar
         curl -s -o out.tar.gz https://dl.google.com/go/go1.11.2.linux-amd64.tar.gz
         tar -C /usr/local -xzf out.tar.gz
+        #DELET
         rm out.tar.gz
     fi
     echo "installing nodejs"
     curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -
     apt-get install -y nodejs
 
-    echo "installing more stuff"
-    apt-get update -y
-    apt-get install -y apache2 httpie
+    #install all npm stuff
+    echo "npm install that good stuff"
+    cd /home/vagrant/frontend/itts-front-end
+    npm install
+    # you can't run the build script in an arbitrary react app, so yeah
+    # build it up
+    npm run build
+    # copy the files over
+    sudo cp -fr /home/vagrant/frontend/itts-front-end/build/* /var/www/html
+    cd ~
+
     
     # compile our binary
     export PATH=$PATH:/usr/local/go/bin
