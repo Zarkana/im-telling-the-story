@@ -1,8 +1,43 @@
+
+
+.container{
+  display: grid;
+  grid-template-columns: 100%;
+}
+
+header{
+  background: #bfe6ff;
+  padding: 20px;
+}
+
+.progress-bar{
+  background: #cbfcff;
+  padding: 20px;
+}
+
+
+.content{
+  background: #c3ffcb;
+  padding: 20px;
+}
+
+
+.primary-nav{
+  background: #fbffc4;
+  padding: 20px;
+}
+
+footer{
+  background: #ffd9c7;
+  padding: 20px;
+}
+
+
 /*tic tac to*/
-body {
+/* body {
     font: 14px "Century Gothic", Futura, sans-serif;
     margin: 20px;
-  }
+  } */
   
   ol, ul {
     padding-left: 30px;
@@ -53,11 +88,11 @@ body {
 /* styles */
 
 body {
-  background-color: #FFCC00;
-  padding: 20px;
+  /* background-color: #FFCC00; */
+  /* padding: 20px; */
   margin: 0;
 }
-h1, h2, p, ul, li {
+/* h1, h2, p, ul, li {
   font-family: sans-serif;
 }
 ul.header li {
@@ -90,4 +125,4 @@ ul.header li a {
 
 .active {
   background-color: #0099FF;
-}
+} */
