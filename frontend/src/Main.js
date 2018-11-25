@@ -12,7 +12,7 @@ class Main extends Component {
   render() {
     return (        
         <HashRouter>
-            <div class="container">
+            <div className="container">
                 <Header></Header>
                 <ProgressBar></ProgressBar>
                 <Content></Content>

@@ -8,7 +8,7 @@ class SubmitLink extends Component {
   render() {
     return (
         <div>            
-          <NavLink to="/vote">Vote &rarr;</NavLink>
+          <NavLink to="/submit">Submit &rarr;</NavLink>
       </div>
     );
   }

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Route } from "react-router-dom";
-import VoteLink  from "./NavLinks/VoteLink";
+import HomeLink  from "./NavLinks/HomeLink";
 import SubmitLink  from "./NavLinks/SubmitLink";
 import Home from "./Home";
 import {
@@ -18,8 +18,8 @@ class PrimaryNav extends Component {
           <li><NavLink to="/vote">Vote --></NavLink></li>
       </ul> */}
       <Route exact path="/" component={SubmitLink}/>
-      <Route path="/vote" component={VoteLink}/>
-      
+      <Route path="/submit" component={HomeLink}/>
+      {/* <Route path="/vote" component={HomeLink}/> */}
   </div>
     );
   }
