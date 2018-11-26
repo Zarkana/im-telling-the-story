@@ -1,0 +1,114 @@
+html, body, #root{
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+#root{
+  width: 75%;
+  height: 100%;
+  margin: 0 auto;
+  max-width: 956px;
+}
+
+/* When 769px or larger */
+@media (min-width: 769px){
+  #root{
+    min-width: 768px;
+  }
+}
+
+/* When 768px or smaller */
+@media (max-width: 768px){
+  #root{
+    width: 100%;
+  }
+}
+
+.container{
+  min-height: 100%;
+  display: grid;
+  grid-template-rows: auto auto 1fr auto auto;
+  grid-template-columns: 100%;
+}
+
+header{
+  background: #bfe6ff;
+  padding: 20px;
+}
+
+.progress-bar{
+  background: #cbfcff;
+  padding: 20px;
+}
+
+
+.content{
+  background: #c3ffcb;
+  padding: 20px;
+}
+
+
+.primary-nav{
+  background: #fbffc4;
+  padding: 20px;
+}
+
+footer{
+  background: #ffd9c7;
+  padding: 20px;
+}
+
+
+/*tic tac to*/
+/* body {
+    font: 14px "Century Gothic", Futura, sans-serif;
+    margin: 20px;
+  } */
+  
+  ol, ul {
+    padding-left: 30px;
+  }
+  
+  .board-row:after {
+    clear: both;
+    content: "";
+    display: table;
+  }
+  
+  .status {
+    margin-bottom: 10px;
+  }
+  
+  .square {
+    background: #fff;
+    border: 1px solid #999;
+    float: left;
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 34px;
+    height: 34px;
+    margin-right: -1px;
+    margin-top: -1px;
+    padding: 0;
+    text-align: center;
+    width: 34px;
+  }
+  
+  .square:focus {
+    outline: none;
+  }
+  
+  .kbd-navigation .square:focus {
+    background: #ddd;
+  }
+  
+  .game {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .game-info {
+    margin-left: 20px;
+  }
+  
