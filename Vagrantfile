@@ -83,13 +83,13 @@ Vagrant.configure("2") do |config|
 
     #install all npm stuff
     echo "npm install that good stuff"
-    cd /home/vagrant/frontend/itts-front-end
+    cd /home/vagrant/frontend
     npm install
     # you can't run the build script in an arbitrary react app, so yeah
     # build it up
     npm run build
     # copy the files over
-    sudo cp -fr /home/vagrant/frontend/itts-front-end/build/* /var/www/html
+    sudo cp -fr /home/vagrant/frontend/build/* /var/www/html
     # apparently vagrant is running at ~ so putting it back to not destroy anything
     cd ~
 
