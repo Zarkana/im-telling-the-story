@@ -3,6 +3,7 @@ import { Route } from "react-router-dom";
 import Home from "./Home";
 import Game from "./Game";
 import Vote from "./Vote";
+import Submit from "./Submit";
 
 class Content extends Component {
   render() {
@@ -11,6 +12,7 @@ class Content extends Component {
             <Route exact path="/" component={Home}/>
             <Route path="/game" component={Game}/>
             <Route path="/vote" component={Vote}/>
+            <Route path="/submit" component={Submit}/>
         </div>
     );
   }
