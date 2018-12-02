@@ -3,7 +3,7 @@ import {
     HashRouter
   } from "react-router-dom";
 import Header from "./Header";
-import Content from "./Content";
+import Content from "./Content/Content";
 import Footer from "./Footer";
 import ProgressBar from "./ProgressBar";
 import PrimaryNav from "./PrimaryNav";

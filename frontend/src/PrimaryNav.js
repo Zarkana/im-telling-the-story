@@ -2,10 +2,6 @@ import React, { Component } from "react";
 import { Route } from "react-router-dom";
 import HomeLink  from "./NavLinks/HomeLink";
 import SubmitLink  from "./NavLinks/SubmitLink";
-import Home from "./Home";
-import {
-  NavLink,
-} from "react-router-dom"; 
 
 class PrimaryNav extends Component {
   

@@ -1,0 +1,29 @@
+.content{
+    background: #CAFFCA;
+    padding: 30px 50px;
+}
+
+.content .home-content{
+    height: 100%;
+    display: grid;
+    grid-template-rows: 1fr auto;
+}
+
+.content-holder{
+    display: inline-block;
+    background: white;
+    padding: 20px;
+    font-size: 1.5em;
+}
+
+.content-holder p{
+    margin: 0;    
+}
+
+.content-holder.submission-count{
+    text-align: center;
+    margin-top: 20px;
+}
+
+.content-holder.submission-count p{
+}
