@@ -8,7 +8,7 @@ class HomeLink extends Component {
   render() {
     return ( 
       <div className="shift-text-down">
-        <NavLink exact to="/">&larr; The Story Thus Far</NavLink>
+        <NavLink exact to="/"><span className="large-arrow left">&larr;</span> The Story Thus Far</NavLink>
       </div>
     );
   }
