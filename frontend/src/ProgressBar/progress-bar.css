@@ -1,0 +1,24 @@
+.progress-bar{
+    background: #CCFBFF;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    font-size: 1.5em;
+}
+
+.progress-bar div.left{
+    text-align: left;
+}
+
+.progress-bar div.center{
+    text-align: center;
+}
+
+.progress-bar div.right{
+    text-align: right;
+}
+
+
+.future-progress{
+    background-color: #1FE5EA;
+}

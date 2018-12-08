@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Route } from "react-router-dom";
 import HomeLink  from "./NavLinks/HomeLink";
 import SubmitLink  from "./NavLinks/SubmitLink";
+import './primary-nav.css';
 
 class PrimaryNav extends Component {
   

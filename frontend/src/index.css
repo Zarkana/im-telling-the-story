@@ -6,6 +6,8 @@ html, body, #root{
   height: 100%;
   margin: 0;
   font-family: 'Comfortaa', cursive;
+
+  box-sizing: border-box;
 }
 
 #root{
@@ -29,6 +31,8 @@ html, body, #root{
   }
 }
 
+/* component css */
+
 .container{
   min-height: 100%;
   display: grid;
@@ -40,25 +44,40 @@ header{
   background: #C2E5FF;
   padding: 20px;
   font-size: 3em;
-}
-
-.progress-bar{
-  background: #CCFBFF;
-  padding: 20px;
-}
-
-.future-progress{
-  background-color: #1FE5EA;
-}
-
-
-
-.primary-nav{
-  background: #FBFFC2;
-  padding: 20px;
+  text-align: center;
 }
 
 footer{
-  background: #FFDAC7;
-  padding: 20px;
+  /* background: #FFDAC7; */
+  background-color: #ffccc7;
+  padding: 15px;
+  display: grid;
+  grid-template-columns: 33% 33% 33%;
+}
+
+footer div.left{
+  /* background-color: green; */
+  text-align: left;
+}
+
+footer div.center{
+  /* background-color: red; */
+  text-align: right;
+}
+
+footer div.right{
+  /* background-color: blue; */
+  text-align: right;
+}
+
+/* helper css */
+
+.shift-text-down{
+  position: relative;
+  bottom: -.10em;
+}
+
+.shift-text-down-children > div,p{
+  position: relative;
+  bottom: -.10em;
 }
