@@ -50,3 +50,18 @@ func initializeDB() {
 	}
 	defer database.Close()
 }
+
+// takes callsign and returns int of userid
+func initSampleSubmission(name string) {
+
+}
+
+// takes the length for a story to be and returns the storyID
+func newStory(length int) int {
+	// make our db connection
+	db := GetConnection()
+	// be sure to close it!
+	defer db.Close()
+	// db.Prepare("INSERT INTO Stories ")
+	return 0
+}

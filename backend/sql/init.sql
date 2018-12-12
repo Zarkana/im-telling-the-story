@@ -2,9 +2,9 @@ PRAGMA foreign_keys = off;
 BEGIN TRANSACTION;
 
 -- Table: Objectives
--- DROP TABLE IF EXISTS Objectives;
+DROP TABLE IF EXISTS Objectives;
 
-CREATE TABLE IF NOT EXISTS Objectives (
+CREATE TABLE Objectives (
     ObjectivesID   INTEGER      PRIMARY KEY
                                 UNIQUE
                                 NOT NULL,
@@ -18,9 +18,9 @@ CREATE TABLE IF NOT EXISTS Objectives (
 
 
 -- Table: Stories
--- DROP TABLE IF EXISTS Stories;
+DROP TABLE IF EXISTS Stories;
 
-CREATE TABLE IF NOT EXISTS Stories (
+CREATE TABLE Stories (
     StoryID       INTEGER      PRIMARY KEY
                                NOT NULL
                                UNIQUE,
@@ -28,14 +28,15 @@ CREATE TABLE IF NOT EXISTS Stories (
     MaxLength     INTEGER      NOT NULL,
     StoryComplete BOOLEAN      NOT NULL,
     UserID        INTEGER      REFERENCES Users (UserID),
-    CurrentLength INTEGER      NOT NULL
+    CurrentLength INTEGER      NOT NULL,
+    CurrentStory  BOOLEAN      NOT NULL
 );
 
 
 -- Table: Submissions
--- DROP TABLE IF EXISTS Submissions;
+DROP TABLE IF EXISTS Submissions;
 
-CREATE TABLE IF NOT EXISTS Submissions (
+CREATE TABLE Submissions (
     UserID       INTEGER REFERENCES Users (UserID),
     SubmissionID INTEGER PRIMARY KEY
                          NOT NULL
@@ -50,9 +51,9 @@ CREATE TABLE IF NOT EXISTS Submissions (
 
 
 -- Table: TheRoundTable
--- DROP TABLE IF EXISTS TheRoundTable;
+DROP TABLE IF EXISTS TheRoundTable;
 
-CREATE TABLE IF NOT EXISTS TheRoundTable (
+CREATE TABLE TheRoundTable (
     RoundID      INTEGER  PRIMARY KEY
                           NOT NULL
                           UNIQUE,
@@ -66,9 +67,9 @@ CREATE TABLE IF NOT EXISTS TheRoundTable (
 
 
 -- Table: Users
--- DROP TABLE IF EXISTS Users;
+DROP TABLE IF EXISTS Users;
 
-CREATE TABLE IF NOT EXISTS Users (
+CREATE TABLE Users (
     UserID     INTEGER      PRIMARY KEY
                             UNIQUE
                             NOT NULL,
