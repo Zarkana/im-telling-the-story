@@ -2,9 +2,9 @@ PRAGMA foreign_keys = off;
 BEGIN TRANSACTION;
 
 -- Table: Objectives
-DROP TABLE IF EXISTS Objectives;
+-- DROP TABLE IF EXISTS Objectives;
 
-CREATE TABLE Objectives (
+CREATE TABLE IF NOT EXISTS Objectives (
     ObjectivesID   INTEGER      PRIMARY KEY
                                 UNIQUE
                                 NOT NULL,
@@ -18,9 +18,9 @@ CREATE TABLE Objectives (
 
 
 -- Table: Stories
-DROP TABLE IF EXISTS Stories;
+-- DROP TABLE IF EXISTS Stories;
 
-CREATE TABLE Stories (
+CREATE TABLE IF NOT EXISTS Stories (
     StoryID       INTEGER      PRIMARY KEY
                                NOT NULL
                                UNIQUE,
@@ -33,9 +33,9 @@ CREATE TABLE Stories (
 
 
 -- Table: Submissions
-DROP TABLE IF EXISTS Submissions;
+-- DROP TABLE IF EXISTS Submissions;
 
-CREATE TABLE Submissions (
+CREATE TABLE IF NOT EXISTS Submissions (
     UserID       INTEGER REFERENCES Users (UserID),
     SubmissionID INTEGER PRIMARY KEY
                          NOT NULL
@@ -50,9 +50,9 @@ CREATE TABLE Submissions (
 
 
 -- Table: TheRoundTable
-DROP TABLE IF EXISTS TheRoundTable;
+-- DROP TABLE IF EXISTS TheRoundTable;
 
-CREATE TABLE TheRoundTable (
+CREATE TABLE IF NOT EXISTS TheRoundTable (
     RoundID      INTEGER  PRIMARY KEY
                           NOT NULL
                           UNIQUE,
@@ -66,9 +66,9 @@ CREATE TABLE TheRoundTable (
 
 
 -- Table: Users
-DROP TABLE IF EXISTS Users;
+-- DROP TABLE IF EXISTS Users;
 
-CREATE TABLE Users (
+CREATE TABLE IF NOT EXISTS Users (
     UserID     INTEGER      PRIMARY KEY
                             UNIQUE
                             NOT NULL,
