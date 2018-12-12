@@ -63,5 +63,6 @@ func newStory(length int) int {
 	// be sure to close it!
 	defer db.Close()
 	// db.Prepare("INSERT INTO Stories ")
+	// done for now i'll fix this
 	return 0
 }

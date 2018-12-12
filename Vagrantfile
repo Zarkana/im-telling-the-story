@@ -97,6 +97,7 @@ Vagrant.configure("2") do |config|
     # compile our binary
     export PATH=$PATH:/usr/local/go/bin
     go get "github.com/gin-gonic/gin"
+    go get "github.com/mattn/go-sqlite3"
     # place binary in /usr/sbin
     go build -o "/usr/sbin/ittsbackend" "/home/vagrant/backend/ittsbackend.go"
 
