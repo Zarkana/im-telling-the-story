@@ -16,7 +16,7 @@ func main() {
 	router.GET("/test", test)
 	router.GET("/test/:test", testParam)
 	// testing
-	S.GetConnection()
+	S.Test()
 	// run our router with the specified or default port number
 	router.Run(":" + *servicePort)
 }
