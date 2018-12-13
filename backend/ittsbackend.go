@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 
-	S "./db"
+	DB "./db"
 	"github.com/gin-gonic/gin"
 )
 
@@ -15,8 +15,8 @@ func main() {
 	router := gin.Default()
 	router.GET("/test", test)
 	router.GET("/test/:test", testParam)
-	// testing
-	S.Test()
+	// testing our database functions
+	DB.Test()
 	// run our router with the specified or default port number
 	router.Run(":" + *servicePort)
 }
