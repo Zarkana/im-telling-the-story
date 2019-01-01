@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"os"
 	"strings"
+	"time"
 
 	// we're not importing anything because the package doesn't want us to.
 	_ "github.com/mattn/go-sqlite3"
@@ -31,6 +32,7 @@ func exists(name string) bool {
 
 // GetConnection returns a database connection to our db
 func GetConnection() *sql.DB {
+	// the fact that we keep on opening db connections might be a bad idea
 	// this checks if the db exists or not so we can make the proper tables
 	if !exists(dbName) {
 		fmt.Println("Making new Database")
@@ -102,4 +104,20 @@ func NewStory(length int) int64 {
 	lid, _ := res.LastInsertId()
 
 	return lid
+}
+
+// NewRound creates a new Round and returns the ID
+func NewRound(storyID int, roundNum int, endTime time.Time, voteTime time.Time) {
+	// make our db connection
+	db := GetConnection()
+	// be sure to close it!
+	defer db.Close()
+
+	// Row := db.Query()
+
+	statement, err := db.Prepare("INSERT INTO TheRoundTable (StoryID, RoundNum, EndTime, VoteTime) VALUES (?, ?, ?, ?)")
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer statement.Close()
 }
