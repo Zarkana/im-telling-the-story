@@ -20,7 +20,7 @@ func Test() {
 	// so edgy 666
 	id := NewStory(666)
 	res, _ := NewRound(id, 1, time.Now(), time.Now())
-	fmt.Println(res)
+	fmt.Println(NewSubmission(res, 10))
 }
 
 // Takes a path name, returns true if the file exists, false otherwise
@@ -78,11 +78,6 @@ func initializeDB() {
 	defer database.Close()
 }
 
-// takes callsign and returns int of userid
-func initSampleSubmission(name string) {
-
-}
-
 // NewStory takes the length for a story to be and returns the storyID inserted
 // This does assume that the story being created is going to be the new current story.
 func NewStory(length int) int64 {
@@ -108,7 +103,7 @@ func NewStory(length int) int64 {
 	return lid
 }
 
-// NewRound creates a new Round and returns the ID
+// NewRound creates a new Round and returns the ID or an error
 func NewRound(storyID int64, roundNum int, endTime time.Time, voteTime time.Time) (int64, error) {
 	// make our db connection
 	db := GetConnection()
@@ -120,7 +115,7 @@ func NewRound(storyID int64, roundNum int, endTime time.Time, voteTime time.Time
 	// this is kind of weird, but if there's an error here that means there are no rows, which means that there exists no such entry
 	if Row.Scan() == nil {
 		// you can't return nil for an int so it has to be 0?
-		return 0, fmt.Errorf("There already exists a round of number %d for storyID %d!", roundNum, storyID)
+		return 0, fmt.Errorf("there already exists a round of number %d for storyID %d", roundNum, storyID)
 	}
 
 	statement, err := db.Prepare("INSERT INTO TheRoundTable (StoryID, RoundNum, EndTime, VoteTime) VALUES (?, ?, ?, ?)")
@@ -137,4 +132,27 @@ func NewRound(storyID int64, roundNum int, endTime time.Time, voteTime time.Time
 	// i don't know when this would return an error
 	lid, _ := res.LastInsertId()
 	return lid, nil
+}
+
+// NewSubmission inserts a new submission into the database and returns the ID of the submission
+func NewSubmission(roundID int64, maxLength int) int64 {
+	// make our db connection
+	db := GetConnection()
+	// be sure to close it!
+	defer db.Close()
+
+	statement, err := db.Prepare("INSERT INTO Submissions (Votes, Submitted, MaxLength, RoundID) VALUES (0, false, ?, ?)")
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer statement.Close()
+
+	res, err := statement.Exec(maxLength, roundID)
+	if err != nil {
+		panic(err)
+	}
+
+	// i don't know when this would return an error
+	lid, _ := res.LastInsertId()
+	return lid
 }
