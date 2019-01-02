@@ -156,3 +156,51 @@ func NewSubmission(roundID int64, maxLength int) int64 {
 	lid, _ := res.LastInsertId()
 	return lid
 }
+
+// NewUser returns the UserId of a newly inserted user
+func NewUser(screenName string) int64 {
+	// We should probably have functions to add the specific methods of authentication later
+	// make our db connection
+	db := GetConnection()
+	// be sure to close it!
+	defer db.Close()
+
+	// new users shouldn't have a score higher than 0 probably?
+	statement, err := db.Prepare("INSERT INTO Users (Score, ScreenName) VALUES (0, ?)")
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer statement.Close()
+
+	res, err := statement.Exec(screenName)
+	if err != nil {
+		panic(err)
+	}
+
+	// i don't know when this would return an error
+	lid, _ := res.LastInsertId()
+	return lid
+}
+
+// NewObjective inserts a new objective into the database and returns the ID of the objective
+func NewObjective(submissionID int64, pointValue int, objectiveType string) int64 {
+	// make our db connection
+	db := GetConnection()
+	// be sure to close it!
+	defer db.Close()
+
+	statement, err := db.Prepare("INSERT INTO Objectives (SubmissionID, PointValue, ObjectiveType, ObjectiveMet) VALUES (?, ?, ?, false)")
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer statement.Close()
+
+	res, err := statement.Exec(submissionID, pointValue, objectiveType)
+	if err != nil {
+		panic(err)
+	}
+
+	// i don't know when this would return an error
+	lid, _ := res.LastInsertId()
+	return lid
+}
