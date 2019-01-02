@@ -18,7 +18,9 @@ const dbName string = "./db/main.db"
 // Test is a test function, exported so we can call it from main
 func Test() {
 	// so edgy 666
-	fmt.Println(NewStory(666))
+	id := NewStory(666)
+	res, _ := NewRound(id, 1, time.Now(), time.Now())
+	fmt.Println(res)
 }
 
 // Takes a path name, returns true if the file exists, false otherwise
@@ -107,17 +109,32 @@ func NewStory(length int) int64 {
 }
 
 // NewRound creates a new Round and returns the ID
-func NewRound(storyID int, roundNum int, endTime time.Time, voteTime time.Time) {
+func NewRound(storyID int64, roundNum int, endTime time.Time, voteTime time.Time) (int64, error) {
 	// make our db connection
 	db := GetConnection()
 	// be sure to close it!
 	defer db.Close()
 
-	// Row := db.Query()
+	// if there already exists a round with the same story and round number, something bad has occured, so we return an error
+	Row := db.QueryRow(`SELECT StoryID, RoundNum FROM TheRoundTable WHERE StoryID = ? AND RoundNum = ?`, storyID, roundNum)
+	// this is kind of weird, but if there's an error here that means there are no rows, which means that there exists no such entry
+	if Row.Scan() == nil {
+		// you can't return nil for an int so it has to be 0?
+		return 0, fmt.Errorf("There already exists a round of number %d for storyID %d!", roundNum, storyID)
+	}
 
 	statement, err := db.Prepare("INSERT INTO TheRoundTable (StoryID, RoundNum, EndTime, VoteTime) VALUES (?, ?, ?, ?)")
 	if err != nil {
 		fmt.Println(err)
 	}
 	defer statement.Close()
+
+	res, err := statement.Exec(storyID, roundNum, endTime, voteTime)
+	if err != nil {
+		panic(err)
+	}
+
+	// i don't know when this would return an error
+	lid, _ := res.LastInsertId()
+	return lid, nil
 }
