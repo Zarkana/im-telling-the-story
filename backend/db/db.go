@@ -23,8 +23,8 @@ func Test() {
 	fmt.Println(NewSubmission(res, 10))
 }
 
-// Takes a path name, returns true if the file exists, false otherwise
-func exists(name string) bool {
+// Exists Takes a file path name, returns true if the file exists, false otherwise Exported because it might be useful
+func Exists(name string) bool {
 	_, err := os.Stat(name)
 	if os.IsNotExist(err) {
 		return false
@@ -36,7 +36,7 @@ func exists(name string) bool {
 func GetConnection() *sql.DB {
 	// the fact that we keep on opening db connections might be a bad idea
 	// this checks if the db exists or not so we can make the proper tables
-	if !exists(dbName) {
+	if !Exists(dbName) {
 		fmt.Println("Making new Database")
 		initializeDB()
 	}
