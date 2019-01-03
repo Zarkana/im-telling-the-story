@@ -3,17 +3,18 @@ package db
 import (
 	"database/sql"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"strings"
 	"time"
+
+	Init "../sql"
 
 	// we're not importing anything because the package doesn't want us to.
 	_ "github.com/mattn/go-sqlite3"
 )
 
 // this is our location of our database. We can change this if we want, so I made it a const
-const dbName string = "./db/main.db"
+const dbName string = "./main.db"
 
 // Test is a test function, exported so we can call it from main
 func Test() {
@@ -23,7 +24,7 @@ func Test() {
 	fmt.Println(NewSubmission(res, 10))
 }
 
-// Exists Takes a file path name, returns true if the file exists, false otherwise Exported because it might be useful
+// Exists Takes a file path name, returns true if the file exists, false otherwise. Exported because it might be useful
 func Exists(name string) bool {
 	_, err := os.Stat(name)
 	if os.IsNotExist(err) {
@@ -53,16 +54,21 @@ func initializeDB() {
 	// open the database
 	database, err := sql.Open("sqlite3", dbName)
 	if err != nil {
+		fmt.Println("error in opening Db")
 		fmt.Println(err)
 	}
 	// this is our init SQL script
+	// fmt.Println(Init.Init)
 	// we might want to just slap this in here as a const, that might make it a bit more portable
-	file, err := ioutil.ReadFile("./sql/init.sql")
+	// file, err := ioutil.ReadFile("./sql/init.sql")
 
-	if err != nil {
-		fmt.Println("Could not read initialization SQL script. " + err.Error())
-		os.Exit(-1)
-	}
+	// if err != nil {
+	// 	fmt.Println("Could not read initialization SQL script. " + err.Error())
+	// 	os.Exit(-1)
+	// }
+
+	// opening our golang file
+	file := Init.Init
 
 	// split up the file into our different requests
 	requests := strings.Split(string(file), ";")
