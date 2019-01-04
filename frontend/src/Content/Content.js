@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { Route } from "react-router-dom";
-import Home from "./Home";
-import Game from "./Game";
+import Home from "./Home/Home";
+import Game from "../Game/Game";
 import Vote from "./Vote";
-import Submit from "./Submit";
+import Submit from "./Submit/Submit";
+import './content.css';
 
 class Content extends Component {
   render() {

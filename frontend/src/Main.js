@@ -3,21 +3,21 @@ import {
     HashRouter
   } from "react-router-dom";
 import Header from "./Header";
-import Content from "./Content";
+import Content from "./Content/Content";
 import Footer from "./Footer";
-import ProgressBar from "./ProgressBar";
-import PrimaryNav from "./PrimaryNav";
+import ProgressBar from "./ProgressBar/ProgressBar";
+import PrimaryNav from "./PrimaryNav/PrimaryNav";
 
 class Main extends Component {
   render() {
     return (        
         <HashRouter>
             <div className="container">
-                <Header></Header>
-                <ProgressBar></ProgressBar>
-                <Content></Content>
-                <PrimaryNav></PrimaryNav>
-                <Footer></Footer>
+                <Header/>
+                <ProgressBar/>
+                <Content/>
+                <PrimaryNav/>
+                <Footer/>
             </div>
         </HashRouter>
     );

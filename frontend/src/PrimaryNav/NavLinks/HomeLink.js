@@ -6,8 +6,10 @@ import {
 class HomeLink extends Component {
   
   render() {
-    return (      
-        <NavLink exact to="/">&larr; Home</NavLink>
+    return ( 
+      <div className="shift-text-down">
+        <NavLink exact to="/"><span className="large-arrow left">&larr;</span> The Story Thus Far</NavLink>
+      </div>
     );
   }
 }

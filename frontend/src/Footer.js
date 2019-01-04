@@ -4,10 +4,13 @@ class Footer extends Component {
   render() {
     return (
       <footer>
-          FOOTER
+          <div className="left shift-text-down">SIGN IN</div>
+          <div className="center shift-text-down"></div>
+          <div className="right shift-text-down">GITHUB</div>
       </footer>
     );
   }
 }
 
 export default Footer;
+

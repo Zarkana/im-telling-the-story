@@ -65,7 +65,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: <<-SHELL
     echo "apt packages"
     apt-get update -y
-    apt-get install -y apache2 httpie
+    apt-get install -y apache2 httpie gcc
     # check if go is installed because it takes 12 billion years to download
     echo "Checking if go is installed"
     if [ ! -d /usr/local/go ]
@@ -96,7 +96,10 @@ Vagrant.configure("2") do |config|
     
     # compile our binary
     export PATH=$PATH:/usr/local/go/bin
+    # if you actually go into the box and try to use go, it won't work for some? reason. So this is a hack to fix that
+    echo "export PATH=$PATH:/usr/local/go/bin" >> .bashrc
     go get "github.com/gin-gonic/gin"
+    go get "github.com/mattn/go-sqlite3"
     # place binary in /usr/sbin
     go build -o "/usr/sbin/ittsbackend" "/home/vagrant/backend/ittsbackend.go"
 
