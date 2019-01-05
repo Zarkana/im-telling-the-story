@@ -6,6 +6,7 @@ html, body, #root{
   height: 100%;
   margin: 0;
   font-family: 'Comfortaa', cursive;
+  box-sizing: border-box;
 }
 
 #root{
@@ -29,6 +30,8 @@ html, body, #root{
   }
 }
 
+/* component css */
+
 .container{
   min-height: 100%;
   display: grid;
@@ -40,83 +43,40 @@ header{
   background: #C2E5FF;
   padding: 20px;
   font-size: 3em;
-}
-
-.progress-bar{
-  background: #CCFBFF;
-  padding: 20px;
-}
-
-.future-progress{
-  background-color: #1FE5EA;
-}
-
-.content{
-  background: #CAFFCA;
-  padding: 20px;
-}
-
-
-.primary-nav{
-  background: #FBFFC2;
-  padding: 20px;
+  text-align: center;
 }
 
 footer{
-  background: #FFDAC7;
-  padding: 20px;
+  /* background: #FFDAC7; */
+  background-color: #ffccc7;
+  padding: 15px;
+  display: grid;
+  grid-template-columns: 33% 33% 33%;
 }
 
+footer div.left{
+  /* background-color: green; */
+  text-align: left;
+}
 
-/*tic tac to*/
-/* body {
-    font: 14px "Century Gothic", Futura, sans-serif;
-    margin: 20px;
-  } */
-  
-  ol, ul {
-    padding-left: 30px;
-  }
-  
-  .board-row:after {
-    clear: both;
-    content: "";
-    display: table;
-  }
-  
-  .status {
-    margin-bottom: 10px;
-  }
-  
-  .square {
-    background: #fff;
-    border: 1px solid #999;
-    float: left;
-    font-size: 24px;
-    font-weight: bold;
-    line-height: 34px;
-    height: 34px;
-    margin-right: -1px;
-    margin-top: -1px;
-    padding: 0;
-    text-align: center;
-    width: 34px;
-  }
-  
-  .square:focus {
-    outline: none;
-  }
-  
-  .kbd-navigation .square:focus {
-    background: #ddd;
-  }
-  
-  .game {
-    display: flex;
-    flex-direction: row;
-  }
-  
-  .game-info {
-    margin-left: 20px;
-  }
-  
+footer div.center{
+  /* background-color: red; */
+  text-align: right;
+}
+
+footer div.right{
+  /* background-color: blue; */
+  text-align: right;
+}
+
+/* helper css */
+
+.shift-text-down{
+  position: relative;
+  bottom: -.10em;
+}
+
+.shift-text-down-children > div,p{
+  position: relative;
+  bottom: -.10em;
+}

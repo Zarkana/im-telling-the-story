@@ -1,0 +1,37 @@
+.content{
+    background: #CAFFCA;
+    padding: 25px 50px;    
+    /* grid-template-columns: 100%; */
+}
+
+.content .home{
+    height: 100%;
+    display: grid;
+    grid-template-rows: 1fr auto;    
+}
+
+.content-holder{
+    display: inline-block;
+    background: white;
+    padding: 20px;
+    font-size: 1.5em;    
+}
+
+.content-holder p{
+    margin: 0;    
+}
+
+.content-holder.submission-count{
+    text-align: center;
+    margin-top: 20px;    
+    background-color: #ffe7c2;
+}
+
+.content-holder.submission-count .submit-progress{
+    background-color: orange;
+}
+
+
+.content-holder.submission-count{
+    
+}

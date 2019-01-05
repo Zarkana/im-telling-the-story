@@ -65,7 +65,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: <<-SHELL
     echo "apt packages"
     apt-get update -y
-    apt-get install -y apache2 httpie
+    apt-get install -y apache2 httpie gcc
     # check if go is installed because it takes 12 billion years to download
     echo "Checking if go is installed"
     if [ ! -d /usr/local/go ]
@@ -83,20 +83,23 @@ Vagrant.configure("2") do |config|
 
     #install all npm stuff
     echo "npm install that good stuff"
-    cd /home/vagrant/frontend/itts-front-end
+    cd /home/vagrant/frontend
     npm install
     # you can't run the build script in an arbitrary react app, so yeah
     # build it up
     npm run build
     # copy the files over
-    sudo cp -fr /home/vagrant/frontend/itts-front-end/build/* /var/www/html
+    sudo cp -fr /home/vagrant/frontend/build/* /var/www/html
     # apparently vagrant is running at ~ so putting it back to not destroy anything
     cd ~
 
     
     # compile our binary
     export PATH=$PATH:/usr/local/go/bin
+    # if you actually go into the box and try to use go, it won't work for some? reason. So this is a hack to fix that
+    echo "export PATH=$PATH:/usr/local/go/bin" >> .bashrc
     go get "github.com/gin-gonic/gin"
+    go get "github.com/mattn/go-sqlite3"
     # place binary in /usr/sbin
     go build -o "/usr/sbin/ittsbackend" "/home/vagrant/backend/ittsbackend.go"
 

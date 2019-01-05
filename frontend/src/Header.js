@@ -4,7 +4,9 @@ class Header extends Component {
   render() {
     return (
       <header>
-          I'M TELLING THE STORY
+          <div className="shift-text-down">
+            I'M TELLING THE STORY
+          </div>
       </header>
     );
   }
