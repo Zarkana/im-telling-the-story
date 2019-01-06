@@ -19,14 +19,14 @@ line height exceeding link height */
 
 .large-arrow{
     position: absolute;    
-    top: -.5em;
+    top: -.35em;
     font-size: 50px;
 }
 
 .large-arrow.left{
-    left: -1em;
+    left: -1.25em;
 }
 
 .large-arrow.right{
-    right: -1em;
+    right: -1.25em;
 }

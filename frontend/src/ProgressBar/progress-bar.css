@@ -4,6 +4,7 @@
     display: grid;
     grid-template-columns: 33% 33% 33%;
     font-size: 1.5em;
+    position: relative;
 }
 
 .progress-bar div.left{
@@ -21,4 +22,22 @@
 
 .future-progress{
     background-color: #1FE5EA;
+}
+
+.less-emphasis{
+    color: #9a9a9a;
+    font-size: .7em;
+    position: relative;
+    top: -.15em;
+}
+
+.round-number{
+    font-size: 1.1em;
+    position: relative;
+    bottom: -.20em;
+}
+
+.side-content{
+    position: relative;    
+    bottom: -.25em;
 }
