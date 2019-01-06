@@ -1,5 +1,9 @@
 import React, { Component } from "react";
  
+// constructor(props) {
+//   super 
+// }
+
 class Footer extends Component {
 
   constructor(props) {

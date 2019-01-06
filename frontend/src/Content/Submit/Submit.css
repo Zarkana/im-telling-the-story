@@ -5,7 +5,7 @@
     grid-template-rows: auto 1fr auto;
 }
 
-.content .submit .requirements{
+.content .submit .objectives{
     margin-bottom: 20px;
 }
 
@@ -17,31 +17,31 @@
 
 }
 
-.requirements{
+.objectives{
     
 }
 
-/* add some margin below each requirement */
-.requirements .requirement{
+/* add some margin below each objective */
+.objectives .objective{
     font-size: .85em;
     margin-bottom: 5px;
 }
 
-/* remove margin on the bottom for last requirement */
-.requirements .requirement:last-child{
+/* remove margin on the bottom for last objective */
+.objectives .objective:last-child{
     /* margin-bottom: 0; */
 }
 
-.requirements .met{
+.objectives .met{
     color: #00a627;
 }
 
-.requirements .not-met{
+.objectives .not-met{
     color: #ff1122;
 }
 
 
-.requirements .points{
+.objectives .points{
     font-size: 1.20em;    
 }
 
