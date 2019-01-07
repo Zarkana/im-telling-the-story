@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Objectives from "./Objectives/Objectives";
+import ObjectiveList from "./ObjectiveList/ObjectiveList";
 import SubmissionField from "./SubmissionField/SubmissionField";
 import Story from "../../Story/Story"; 
 import './Submit.css';
@@ -8,7 +8,7 @@ class Submit extends Component {
   render() {
     return (
       <div className="submit">
-        <Objectives/>
+        <ObjectiveList/>
         <Story/>
         <SubmissionField/>
       </div>

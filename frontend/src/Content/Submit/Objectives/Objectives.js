@@ -34,13 +34,11 @@ class Objectives extends Component {
   }
 
   componentDidMount(){
-    const data = dummyObjectives;
-      const objectivess = data.map((objective) => 
-      <p className="objective" key={objective.id}>
-        <span className="points">+{objective.points}</span> {objective.pre} <span className="not-met">{objective.qualification}</span> {objective.post}
-      </p>
-      );
-
+    const objectivess = dummyObjectives.map((objective) => 
+    <p className="objective" key={objective.id}>
+      <span className="points">+{objective.points}</span> {objective.pre} <span className="not-met">{objective.qualification}</span> {objective.post}
+    </p>
+    );
     this.setState({objectives: objectivess});
     console.log("state", this.state.objectives);
   }

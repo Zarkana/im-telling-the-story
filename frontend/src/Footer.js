@@ -1,8 +1,4 @@
 import React, { Component } from "react";
- 
-// constructor(props) {
-//   super 
-// }
 
 class Footer extends Component {
 
@@ -21,7 +17,6 @@ class Footer extends Component {
       return "SIGN IN";
     }
   }
-
 
   render() {
     return (
