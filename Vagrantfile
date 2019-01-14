@@ -98,8 +98,10 @@ Vagrant.configure("2") do |config|
     export PATH=$PATH:/usr/local/go/bin
     # if you actually go into the box and try to use go, it won't work for some? reason. So this is a hack to fix that
     echo "export PATH=$PATH:/usr/local/go/bin" >> .bashrc
-    go get "github.com/gin-gonic/gin"
-    go get "github.com/mattn/go-sqlite3"
+    # go get "github.com/gin-gonic/gin"
+    # go get "github.com/mattn/go-sqlite3"
+    # go get "golang.org/x/oauth2"
+    go get -d ./...
     # place binary in /usr/sbin
     go build -o "/usr/sbin/ittsbackend" "/home/vagrant/backend/ittsbackend.go"
 

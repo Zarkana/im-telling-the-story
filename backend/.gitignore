@@ -13,3 +13,6 @@
 
 # our database :v
 *.db
+
+# our oauth thingy
+auth.json
