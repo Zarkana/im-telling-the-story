@@ -2,7 +2,9 @@ package main
 
 import (
 	"flag"
+	"fmt"
 
+	Auth "./auth"
 	DB "./db"
 	"github.com/gin-gonic/gin"
 )
@@ -17,6 +19,7 @@ func main() {
 	router.GET("/test/:test", testParam)
 	// testing our database functions
 	DB.Test()
+	fmt.Println(Auth.ReadJSON())
 	// run our router with the specified or default port number
 	router.Run(":" + *servicePort)
 }
