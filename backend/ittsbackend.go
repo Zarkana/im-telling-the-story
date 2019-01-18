@@ -11,12 +11,15 @@ import (
 
 func main() {
 	// create a flag to take in the port number as a CLI flag
-	servicePort := flag.String("port", "42069", "target port to run the service")
+	servicePort := flag.String("port", "5555", "target port to run the service")
 	flag.Parse()
 
 	router := gin.Default()
 	router.GET("/test", test)
 	router.GET("/test/:test", testParam)
+	// we make a route to pass down into our auth
+	auth := router.Group("/auth")
+	Auth.Routes(auth)
 	// testing our database functions
 	DB.Test()
 	fmt.Println(Auth.ReadJSON())

@@ -20,6 +20,7 @@ type GoogleJSON struct {
 
 // ReadJSON reads and returns a struct with the client ID and client secret read from our oauth json
 func ReadJSON() GoogleJSON {
+	// we may or may not want to make this not a file, but this works for now
 	jsonFile, err := ioutil.ReadFile("./auth.json")
 	if err != nil {
 		log.Print(err)
