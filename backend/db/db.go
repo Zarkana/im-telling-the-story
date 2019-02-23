@@ -16,6 +16,12 @@ import (
 // this is our location of our database. We can change this if we want, so I made it a const
 const dbName string = "./main.db"
 
+var dbConnection *sql.DB
+
+func init() {
+	dbConnection = getConnection()
+}
+
 // Test is a test function, exported so we can call it from main
 func Test() {
 	// so edgy 666
@@ -33,9 +39,15 @@ func Exists(name string) bool {
 	return true
 }
 
-// GetConnection returns a database connection to our db
+// GetConnection returns the database connection.
+// We were previously doing something dumb and remaking the db thing every time, so this should be better?
 func GetConnection() *sql.DB {
-	// the fact that we keep on opening db connections might be a bad idea
+	return dbConnection
+}
+
+// getConnection returns a database connection to our db
+func getConnection() *sql.DB {
+	// the fact that we keep on opening db connections is a bad idea
 	// this checks if the db exists or not so we can make the proper tables
 	if !Exists(dbName) {
 		fmt.Println("Making new Database")
@@ -81,7 +93,6 @@ func initializeDB() {
 			fmt.Println(result)
 		}
 	}
-	defer database.Close()
 }
 
 // NewStory takes the length for a story to be and returns the storyID inserted
@@ -90,7 +101,6 @@ func NewStory(length int) int64 {
 	// make our db connection
 	db := GetConnection()
 	// be sure to close it!
-	defer db.Close()
 	// prepare a statement with all default values other than max length
 	statement, err := db.Prepare("INSERT INTO Stories (MaxLength, StoryComplete, CurrentLength, CurrentStory) VALUES (?, false, 0, true)")
 	if err != nil {
@@ -113,8 +123,6 @@ func NewStory(length int) int64 {
 func NewRound(storyID int64, roundNum int, endTime time.Time, voteTime time.Time) (int64, error) {
 	// make our db connection
 	db := GetConnection()
-	// be sure to close it!
-	defer db.Close()
 
 	// if there already exists a round with the same story and round number, something bad has occured, so we return an error
 	Row := db.QueryRow(`SELECT StoryID, RoundNum FROM TheRoundTable WHERE StoryID = ? AND RoundNum = ?`, storyID, roundNum)
@@ -144,8 +152,6 @@ func NewRound(storyID int64, roundNum int, endTime time.Time, voteTime time.Time
 func NewSubmission(roundID int64, maxLength int) int64 {
 	// make our db connection
 	db := GetConnection()
-	// be sure to close it!
-	defer db.Close()
 
 	statement, err := db.Prepare("INSERT INTO Submissions (Votes, Submitted, MaxLength, RoundID) VALUES (0, false, ?, ?)")
 	if err != nil {
@@ -163,22 +169,20 @@ func NewSubmission(roundID int64, maxLength int) int64 {
 	return lid
 }
 
-// NewUser returns the UserId of a newly inserted user
-func NewUser(screenName string) int64 {
+// NewGoogleUser returns the UserId of a newly inserted user
+func NewGoogleUser(googleToken string) int64 {
 	// We should probably have functions to add the specific methods of authentication later
 	// make our db connection
 	db := GetConnection()
-	// be sure to close it!
-	defer db.Close()
 
 	// new users shouldn't have a score higher than 0 probably?
-	statement, err := db.Prepare("INSERT INTO Users (Score, ScreenName) VALUES (0, ?)")
+	statement, err := db.Prepare("INSERT INTO Users (Score, GoogleID) VALUES (0, ?)")
 	if err != nil {
 		fmt.Println(err)
 	}
 	defer statement.Close()
 
-	res, err := statement.Exec(screenName)
+	res, err := statement.Exec(googleToken)
 	if err != nil {
 		panic(err)
 	}
@@ -192,8 +196,6 @@ func NewUser(screenName string) int64 {
 func NewObjective(submissionID int64, pointValue int, objectiveType string) int64 {
 	// make our db connection
 	db := GetConnection()
-	// be sure to close it!
-	defer db.Close()
 
 	statement, err := db.Prepare("INSERT INTO Objectives (SubmissionID, PointValue, ObjectiveType, ObjectiveMet) VALUES (?, ?, ?, false)")
 	if err != nil {
@@ -209,4 +211,23 @@ func NewObjective(submissionID int64, pointValue int, objectiveType string) int6
 	// i don't know when this would return an error
 	lid, _ := res.LastInsertId()
 	return lid
+}
+
+// GetUserByGoogleID takes the google id sub number and returns the id that we have for them in our database
+// Returns 0 if not found
+func GetUserByGoogleID(googleID string) int64 {
+	db := GetConnection()
+
+	statement, err := db.Prepare("SELECT UserID FROM Users where GoogleID = (?)")
+	if err != nil {
+		panic(err)
+	}
+	defer statement.Close()
+	var id int64
+	err = statement.QueryRow(googleID).Scan(&id)
+	if err != nil {
+		return 0
+	}
+	return id
+
 }

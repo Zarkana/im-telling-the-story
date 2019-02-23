@@ -78,7 +78,7 @@ CREATE TABLE Users (
                             UNIQUE
                             NOT NULL,
     Score      INT          NOT NULL,
-    ScreenName VARCHAR (45) NOT NULL,
+    ScreenName VARCHAR (45),
     GoogleID   VARCHAR (45),
     FacebookID VARCHAR (45),
     TwitterID  VARCHAR (45),

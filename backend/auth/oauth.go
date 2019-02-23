@@ -6,7 +6,6 @@ Also: we may need to change this over to not be "implicit flow" depending on how
 package auth
 
 import (
-	"encoding/json"
 	"errors"
 	"log"
 	"net/http"
@@ -30,8 +29,7 @@ var (
 // We use the nonce as something we can put inside the return JWT and this allows us to make sure that nothing terrible happened.
 const appNonce = "a super secret nonce"
 
-func init() {
-	// todo: i'm pretty sure all of this isn't a great way to do this. I believe we should be doing all this every time anyone tries to login, not just once when we start the server.
+func init() { // todo: i'm pretty sure all of this isn't a great way to do this. I believe we should be doing all this every time anyone tries to login, not just once when we start the server.
 	// read our secrets
 	secrets := ReadJSON()
 
@@ -52,8 +50,9 @@ func init() {
 		ClientID:     clientID,
 		ClientSecret: clientSecret,
 		Endpoint:     provider.Endpoint(),
-		RedirectURL:  "http://127.0.0.1:5555/auth/google/callback",
-		Scopes:       []string{oidc.ScopeOpenID, "profile", "email"},
+		// This is something we need to change when we move to a real platform
+		RedirectURL: "http://127.0.0.1:5555/auth/google/callback",
+		Scopes:      []string{oidc.ScopeOpenID, "profile", "email"},
 	}
 
 	// we need to fix this, but not really sure how lmao
@@ -75,6 +74,7 @@ func Routes(route *gin.RouterGroup) {
 }
 
 // this is how we handle the callback from google
+// This function is at the risk of becoming mega spaghetti
 func googleCallback(c *gin.Context) {
 
 	// our OpenID Connect handler
@@ -119,8 +119,8 @@ func googleCallback(c *gin.Context) {
 	// formatting our response to print out. We're going to want to do something with this lol
 	resp := struct {
 		OAuth2Token   *oauth2.Token
-		IDTokenClaims *json.RawMessage // ID Token payload is just JSON.
-	}{oauth2Token, new(json.RawMessage)}
+		IDTokenClaims *IDTokenClaims // ID Token payload is just JSON.
+	}{oauth2Token, new(IDTokenClaims)}
 
 	// this is unmarshalling the claims from the idToken (stuff like name, email etc)
 	// it's just json.RawMessage so just a string :v
@@ -128,12 +128,8 @@ func googleCallback(c *gin.Context) {
 		c.AbortWithError(http.StatusInternalServerError, err)
 		return
 	}
-	// formatting
-	// data, err := json.MarshalIndent(resp, "", "    ")
-	// if err != nil {
-	// 	c.AbortWithError(http.StatusInternalServerError, err)
-	// 	return
-	// }
-	SetCookie(c, GetSignedToken(string(*resp.IDTokenClaims)))
+
+	// This sets our cookie so we can make some reasonable claim that we know who they are. We might want to use our own user ID for this not google's sub.
+	SetCookie(c, GetSignedToken(string(resp.IDTokenClaims.Sub)))
 	c.JSON(200, resp)
 }
