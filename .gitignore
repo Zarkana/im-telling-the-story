@@ -2,3 +2,4 @@
 # we don't want this in our rev control
 .vagrant/*
 *.log
+.vscode

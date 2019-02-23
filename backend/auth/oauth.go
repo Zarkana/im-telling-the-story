@@ -1,5 +1,7 @@
 /*
 This is heavily based on "https://github.com/coreos/go-oidc/tree/v2/example/idtoken"
+It's worth mentioning naming this "oauth.go" is somewhat of a misnomer, as we don't really do anything with oauth
+Also: we may need to change this over to not be "implicit flow" depending on how much we care about security
 */
 package auth
 
@@ -24,8 +26,12 @@ var (
 	clientID string
 )
 
-func init() {
+// bad for obvious reasons
+// We use the nonce as something we can put inside the return JWT and this allows us to make sure that nothing terrible happened.
+const appNonce = "a super secret nonce"
 
+func init() {
+	// todo: i'm pretty sure all of this isn't a great way to do this. I believe we should be doing all this every time anyone tries to login, not just once when we start the server.
 	// read our secrets
 	secrets := ReadJSON()
 
@@ -34,6 +40,7 @@ func init() {
 
 	// Disclosure: I'm not sure how you use context or if this is how it is
 	ctx = context.Background()
+	// (it isn't)
 
 	provider, err := oidc.NewProvider(ctx, "https://accounts.google.com")
 	if err != nil {
@@ -50,6 +57,7 @@ func init() {
 	}
 
 	// we need to fix this, but not really sure how lmao
+	// I read more about this. we can use the state to sort of verify nothing bad happened, but we could also use it to redirect people to the right place.
 	state = "foobar" // Don't do this in production.
 
 }
@@ -60,7 +68,7 @@ func Routes(route *gin.RouterGroup) {
 	{
 		// this one is pretty easy just redirecting to google authentication with our state variable
 		google.GET("/", func(c *gin.Context) {
-			c.Redirect(http.StatusFound, config.AuthCodeURL(state))
+			c.Redirect(http.StatusFound, config.AuthCodeURL(state, oidc.Nonce(appNonce)))
 		})
 		google.GET("/callback", googleCallback)
 	}
@@ -104,6 +112,10 @@ func googleCallback(c *gin.Context) {
 		return
 	}
 
+	if idToken.Nonce != appNonce {
+		c.AbortWithError(http.StatusInternalServerError, errors.New("Invalid Nonce"))
+	}
+
 	// formatting our response to print out. We're going to want to do something with this lol
 	resp := struct {
 		OAuth2Token   *oauth2.Token
@@ -122,5 +134,6 @@ func googleCallback(c *gin.Context) {
 	// 	c.AbortWithError(http.StatusInternalServerError, err)
 	// 	return
 	// }
+	SetCookie(c, GetSignedToken(string(*resp.IDTokenClaims)))
 	c.JSON(200, resp)
 }

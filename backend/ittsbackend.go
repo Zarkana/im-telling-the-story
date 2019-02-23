@@ -20,6 +20,8 @@ func main() {
 	// we make a route to pass down into our auth
 	auth := router.Group("/auth")
 	Auth.Routes(auth)
+	// authorized := router.Group("/secret")
+	// authorized.Use(AuthRe)
 	// testing our database functions
 	DB.Test()
 	fmt.Println(Auth.ReadJSON())
