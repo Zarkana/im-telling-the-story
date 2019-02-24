@@ -20,8 +20,9 @@ func main() {
 	// we make a route to pass down into our auth
 	auth := router.Group("/auth")
 	Auth.Routes(auth)
-	// authorized := router.Group("/secret")
-	// authorized.Use(AuthRe)
+	authorized := router.Group("/secret")
+	authorized.Use(Auth.LoginMiddleware())
+	authorized.GET("/loggedin", loggedIn)
 	// testing our database functions
 	DB.Test()
 	fmt.Println(Auth.ReadJSON())
@@ -40,5 +41,11 @@ func testParam(c *gin.Context) {
 
 	c.JSON(200, gin.H{
 		"echo": test,
+	})
+}
+
+func loggedIn(c *gin.Context) {
+	c.JSON(200, gin.H{
+		"username": DB.GetScreenName(Auth.GetUserID(c)),
 	})
 }

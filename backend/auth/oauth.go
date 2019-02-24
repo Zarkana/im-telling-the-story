@@ -2,31 +2,39 @@
 This is heavily based on "https://github.com/coreos/go-oidc/tree/v2/example/idtoken"
 It's worth mentioning naming this "oauth.go" is somewhat of a misnomer, as we don't really do anything with oauth
 Also: we may need to change this over to not be "implicit flow" depending on how much we care about security
+I should explain what that means. Implicit flow is when we tell the user to get a bunch of info for us and they get it back to us
+There is also code(?) flow wherein we tell the user to go to a server and get us a code and then we use the code to get all the info we need
+With the context of this application it probably isn't necessary. It might be fun to try to to do though.
 */
 package auth
 
 import (
 	"errors"
+	"fmt"
 	"log"
+	"math/rand"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
-
+	// I understand relative imports are bad. We might want to consider moving our project to GOPATH but as it stands this is the only way to do that
+	db "../db"
 	oidc "github.com/coreos/go-oidc"
-
 	"golang.org/x/net/context"
 	"golang.org/x/oauth2"
 )
 
 var (
-	ctx      context.Context
-	config   oauth2.Config
+	ctx    context.Context
+	config oauth2.Config
+	// we probably don't want the state here. It's pretty bad
 	state    string
 	clientID string
 )
 
 // bad for obvious reasons
 // We use the nonce as something we can put inside the return JWT and this allows us to make sure that nothing terrible happened.
+// We should probably put this in the init function and set it to something UnIqUe and CrAzY
 const appNonce = "a super secret nonce"
 
 func init() { // todo: i'm pretty sure all of this isn't a great way to do this. I believe we should be doing all this every time anyone tries to login, not just once when we start the server.
@@ -128,8 +136,23 @@ func googleCallback(c *gin.Context) {
 		c.AbortWithError(http.StatusInternalServerError, err)
 		return
 	}
+	userID := db.GetUserByGoogleID(resp.IDTokenClaims.Sub)
+	// the case where the user doesn't exist in our database
+	if userID == 0 {
+		userID = googleUserSetup(resp.IDTokenClaims.Sub)
 
+	}
 	// This sets our cookie so we can make some reasonable claim that we know who they are. We might want to use our own user ID for this not google's sub.
-	SetCookie(c, GetSignedToken(string(resp.IDTokenClaims.Sub)))
+	fmt.Printf("UUID for cookie: %s", string(userID))
+	jwt := JWTFormat{UserID: userID}
+	SetCookie(c, jwt)
+
+	// currently we just dump a bunch of json to screen
 	c.JSON(200, resp)
+}
+
+// New user setup. We probably want to move this out but this works for now
+func googleUserSetup(googleID string) int64 {
+	randomName := "User" + strconv.Itoa(rand.Intn(6000))
+	return db.NewGoogleUser(googleID, randomName)
 }

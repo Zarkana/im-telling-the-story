@@ -19,3 +19,8 @@ type IDTokenClaims struct {
 	Iat           int    `json:"iat"`
 	Exp           int    `json:"exp"`
 }
+
+// JWTFormat is the format for the info we put into our jwts
+type JWTFormat struct {
+	UserID int64
+}

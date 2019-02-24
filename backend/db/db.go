@@ -170,19 +170,19 @@ func NewSubmission(roundID int64, maxLength int) int64 {
 }
 
 // NewGoogleUser returns the UserId of a newly inserted user
-func NewGoogleUser(googleToken string) int64 {
+func NewGoogleUser(googleToken string, screenName string) int64 {
 	// We should probably have functions to add the specific methods of authentication later
 	// make our db connection
 	db := GetConnection()
 
 	// new users shouldn't have a score higher than 0 probably?
-	statement, err := db.Prepare("INSERT INTO Users (Score, GoogleID) VALUES (0, ?)")
+	statement, err := db.Prepare("INSERT INTO Users (Score, GoogleID, ScreenName) VALUES (0, ?, ?)")
 	if err != nil {
 		fmt.Println(err)
 	}
 	defer statement.Close()
 
-	res, err := statement.Exec(googleToken)
+	res, err := statement.Exec(googleToken, screenName)
 	if err != nil {
 		panic(err)
 	}
@@ -230,4 +230,31 @@ func GetUserByGoogleID(googleID string) int64 {
 	}
 	return id
 
+}
+
+// UserExists checks whether the user is really there or not
+func UserExists(userID int64) bool {
+	db := GetConnection()
+	var count int
+	err := db.QueryRow("SELECT Count(1) FROM Users where UserID = ?", userID).Scan(&count)
+	if err != nil {
+		panic(err)
+	}
+	if count == 0 {
+		return false
+	}
+	// this ignores the case where it finds two people with the same userID but that REALLY shouldn't happen
+	return true
+
+}
+
+// GetScreenName returns the screenname of the userID
+func GetScreenName(userID int64) string {
+	db := GetConnection()
+	var name string
+	err := db.QueryRow("SELECT ScreenName from Users where UserID = ?", userID).Scan(&name)
+	if err != nil {
+		panic(err)
+	}
+	return name
 }
